@@ -1,0 +1,55 @@
+# SystemD service configuration for BaseAPI Worker 2
+# Location: /etc/systemd/system/baseapi-worker2.service
+# Usage: sudo systemctl enable baseapi-worker2 && sudo systemctl start baseapi-worker2
+
+[Unit]
+Description=BaseAPI Worker 2 - Go Web Application
+Documentation=https://github.com/your-org/baseapi
+After=network.target postgresql.service redis.service
+Wants=postgresql.service redis.service
+
+[Service]
+Type=simple
+User=appuser
+Group=appgroup
+WorkingDirectory=/opt/baseapi
+ExecStart=/opt/baseapi/codebase-golang
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=always
+RestartSec=5
+StartLimitInterval=60s
+StartLimitBurst=3
+
+# Environment variables for Worker 2
+Environment=SERVER_PORT=8081
+Environment=DB_HOST=localhost
+Environment=DB_PORT=5432
+Environment=DB_USER=postgres
+Environment=DB_PASSWORD=your_secure_password
+Environment=DB_NAME=baseapi_db
+Environment=REDIS_HOST=localhost
+Environment=REDIS_PORT=6379
+Environment=REDIS_PASSWORD=
+Environment=JWT_SECRET=your-super-secret-jwt-key-for-production
+Environment=ENVIRONMENT=production
+Environment=APP_VERSION=v1.0.0
+Environment=SENTRY_DSN=https://your-key@o123456.ingest.sentry.io/123456789
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/baseapi/logs
+
+# Resource limits
+LimitNOFILE=65536
+LimitNPROC=4096
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=baseapi-worker2
+
+[Install]
+WantedBy=multi-user.target

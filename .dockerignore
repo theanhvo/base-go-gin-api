@@ -1,0 +1,70 @@
+# Dockerfile ignore patterns for faster builds and smaller context
+
+# Git files
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+*.md
+docs/
+examples/
+
+# Development files
+.env
+.env.local
+.env.development
+.env.test
+docker-compose*.yml
+Dockerfile*
+.dockerignore
+
+# Build artifacts
+*.exe
+*.dll
+*.so
+*.dylib
+*.test
+coverage.out
+coverage.xml
+*.prof
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.log
+
+# CI/CD files
+.gitlab-ci.yml
+.github/
+k8s/
+deployment/
+
+# Local development
+scripts/
+Makefile
+nginx.conf
+
+# Cache directories
+node_modules/
+vendor/
+
+# Test data
+testdata/
